@@ -8,11 +8,11 @@ commands:
       # Add parameter here   
     steps:
       - run:
-          name: Destroy environments
-          when: on_fail
-          command: |
-             aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
-            exit 1
+        name: Destroy environments
+        when: on_fail
+        command: |
+          aws cloudformation delete-stack --stack-name udapeople-*-${CIRCLE_WORKFLOW_ID:0:7}
+          exit 1
 
 #   revert-migrations:
 #     description: Revert the last migration if successfully run in the current workflow.
