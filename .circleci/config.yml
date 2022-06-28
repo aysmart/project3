@@ -1,5 +1,6 @@
 version: 2.1
-
+orbs:
+  slack: circleci/slack@4.1
 # commands:
 #   destroy-environment:
 #     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
@@ -46,6 +47,13 @@ jobs:
             cd frontend
             npm install
             npm run build
+      - slack/notify:
+          event: fail
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
@@ -63,6 +71,15 @@ jobs:
             cd backend
             npm install
             npm run build
+
+      - slack/notify:
+          event: fail
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
+
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
@@ -80,6 +97,15 @@ jobs:
             cd frontend
             npm install
             npm run test
+
+      - slack/notify:
+          event: fail
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
+
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-test
@@ -97,6 +123,15 @@ jobs:
             cd backend
             npm install
             npm run test
+
+      - slack/notify:
+          event: fail
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
+
       - save_cache:
           paths: [backend/node_modules]
           key: backend-test
@@ -115,6 +150,15 @@ jobs:
             npm install
             npm audit fix --audit-level-critical --force
             npm audit --audit-level=critical
+
+      - slack/notify:
+          event: fail
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
+
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-scan
@@ -134,6 +178,15 @@ jobs:
             npm audit fix --audit-level-critical --force
             npm audit fix --force
             npm audit --audit-level=critical
+      
+      - slack/notify:
+          event: fail
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
+
       - save_cache:
           paths: [backend/node_modules]
           key: backend-scan
@@ -308,15 +361,57 @@ workflows:
   default:
     jobs:
       - build-frontend
+      - slack/on-hold:
+          context: slack-secrets
+          filters:
+            tags:
+              only: /^v.*/
+          requires:
+            - build-frontend
       - build-backend
+      - slack/on-hold:
+          context: slack-secrets
+          filters:
+            tags:
+              only: /^v.*/
+          requires:
+            - build-backend
       - test-frontend:
           requires: [build-frontend]
+      - slack/on-hold:
+          context: slack-secrets
+          filters:
+            tags:
+              only: /^v.*/
+          requires:
+            - test-frontend
       - test-backend:
           requires: [build-backend]
+      - slack/on-hold:
+          context: slack-secrets
+          filters:
+            tags:
+              only: /^v.*/
+          requires:
+            - test-backend
       - scan-backend:
           requires: [build-backend]
+      - slack/on-hold:
+          context: slack-secrets
+          filters:
+            tags:
+              only: /^v.*/
+          requires:
+            - scan-backend
       - scan-frontend:
           requires: [build-frontend]
+      - slack/on-hold:
+          context: slack-secrets
+          filters:
+            tags:
+              only: /^v.*/
+          requires:
+            - scan-frontend
       # - deploy-infrastructure:
       #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
       #     filters:
