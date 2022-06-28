@@ -14,14 +14,6 @@
   apt:
     autoremove: yes
 
-# - name: enable pyenv and install python
-#   shell: /home/ubuntu/.pyenv/bin/pyenv init - && /home/www/.pyenv/bin/pyenv install 3.4.3 chdir=/home/ubuntu
-#   environment:
-#     pyenv_root: /home/ubuntu/.pyenv
-#     path: "{{ pyenv_root }}/bin:$PATH"
-#   become: yes
-#   become_user: ubuntu
-
 - name: "install dependencies"
   become: yes
   apt:
