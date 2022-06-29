@@ -260,11 +260,24 @@ jobs:
           command: |
             yum install -y tar gzip
       - run:
+          name: Install npm utility
+          command: |
+            yum install npm
+      - run:
+          name: Install pyrthon3 utility
+          command: |
+            yum install python3
+      - run:
+          name: Install ansible utility
+          command: |
+            yum install ansible
+      - run:
+          name: Install nodejs utility
+          command: |
+            yum install nodejs
+      - run:
           name: Install dependencies
           command: |
-            yum install -y ansible 
-            yum install -y npm
-            yum install -y nodejs
             # your code here
       - run:
           name: Get backend url
