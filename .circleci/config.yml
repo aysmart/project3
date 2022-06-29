@@ -252,19 +252,20 @@ jobs:
 
   deploy-frontend:
     docker: 
-      - image: circleci/aws-cli@3.1.1
+      - image: python:3.7-alpine3.11
     steps:
-      - checkout
+      - checkout 
       - run:
-          name: Install tar utility
+          name: Install aws-cli
           command: |
-            yum install -y tar gzip    
+            sudo pip install awscli
       - run:
           name: Install dependencies
           command: |
             apk add --update ansible 
             apk add --update npm
             apk add --update nodejs
+            apk add --update tar gzip
             # your code here
       - run:
           name: Get backend url
