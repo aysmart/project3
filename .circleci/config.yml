@@ -260,17 +260,18 @@ jobs:
           command: |
             yum install -y tar gzip
       - run:
-          name: Install pyrthon3 utility
+          name: Install nodejs utility
           command: |
-            yum install python3
+            yum install nodejs
+      - run:
+          name: Install pyrthon utility
+          command: |
+            yum install python
       - run:
           name: Install ansible utility
           command: |
             yum install ansible
-      - run:
-          name: Install nodejs utility
-          command: |
-            yum install nodejs
+      
       - run:
           name: Install dependencies
           command: |
