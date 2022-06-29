@@ -262,6 +262,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            apk add --update ansible 
+            apk add --update npm
+            apk add --update nodejs
+            apk add --update gzip
             # your code here
       - run:
           name: Get backend url
@@ -298,6 +302,7 @@ jobs:
           command: |
             # install the dependencies needed for your playbook
             apk add --update ansible 
+            apk add --update npm
       - run:
           name: Deploy backend
           command: |
