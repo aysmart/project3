@@ -252,13 +252,9 @@ jobs:
 
   deploy-frontend:
     docker: 
-      - image: amazon/aws-cli
+      - image: cimg/node:18.4.0 
     steps:
       - checkout
-      - node/install:
-          install-yarn: true
-          node-version: '16.13'
-      - run: node --version
       - run:
           name: Install tar utility
           command: |
@@ -290,13 +286,9 @@ jobs:
                     
   deploy-backend:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: cimg/node:18.4.0 
     steps:
       - checkout
-      - node/install:
-          install-yarn: true
-          node-version: '16.13'
-      - run: node --version
       - add_ssh_keys:
           fingerprints: ["26:4a:e7:7a:50:d1:8f:54:45:dd:f4:c7:42:d9:e4:40"]
       - attach_workspace:
