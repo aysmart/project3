@@ -252,7 +252,7 @@ jobs:
 
   deploy-frontend:
     docker: 
-      - image: amazon/aws-cli@3.1.1
+      - image: circleci/aws-cli@3.1.1
     steps:
       - checkout
       - run:
