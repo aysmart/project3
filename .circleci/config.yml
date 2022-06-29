@@ -260,10 +260,6 @@ jobs:
           command: |
             yum install -y tar gzip
       - run:
-          name: Install npm utility
-          command: |
-            yum install npm
-      - run:
           name: Install pyrthon3 utility
           command: |
             yum install python3
