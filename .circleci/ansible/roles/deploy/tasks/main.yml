@@ -1,8 +1,8 @@
 ---
 - name: "Extract the achieved artifact "
   unarchive:
-    src: artifact.tar.gz
-    dest: ./
+    src: ../artifact.tar.gz
+    dest: ../
 
 - name: "Start App"
   shell: |
