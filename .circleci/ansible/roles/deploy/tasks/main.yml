@@ -2,11 +2,15 @@
 - name: "Show Instance Environment"
   shell: env
 
-- name: install the latest version of rsync
-  yum:
-    name: rsync
-    state: latest
-    
+- name: "Installing Rsync"
+  apt: >
+    pkg={{ item }}
+    state=latest
+    update_cache=yes
+    cache_valid_time=3600
+  with_items:
+  - rsync
+
 - name: "Copy backend compiled code"
   become: yes
   synchronize:
