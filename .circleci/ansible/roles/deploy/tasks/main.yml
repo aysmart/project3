@@ -2,6 +2,11 @@
 - name: "Show Instance Environment"
   shell: env
 
+- name: install the latest version of rsync
+  yum:
+    name: rsync
+    state: latest
+    
 - name: "Copy backend compiled code"
   become: yes
   synchronize:
