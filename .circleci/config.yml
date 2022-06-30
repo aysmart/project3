@@ -293,6 +293,10 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
+      - run:
+          name: Install aws-cli
+          command: |
+            pip install awscli
       - add_ssh_keys:
           fingerprints: ["26:4a:e7:7a:50:d1:8f:54:45:dd:f4:c7:42:d9:e4:40"]
       - attach_workspace:
