@@ -318,23 +318,13 @@ jobs:
             cd ..
             # Zip the directory
             tar -C backend -czvf artifact.tar.gz .
-            # Upload artifacts to s3 buckets
             cd .
-            
-            #aws s3 cp artifact.tar.gz s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}
             curl https://kvdb.io/VMYQi71XYivasRDqmX9fy9/s3name  -d udapeople-${CIRCLE_WORKFLOW_ID:0:7}
             cd .circleci/ansible
-            # var=$(tail -1 inventory.txt)
-            # echo $var
-            # cd ..
-            # cd ..
 
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
-      # - run:
-      #     name: Copy artifact.tar.gz to EC2 Instance
-      #     command: |
       - destroy-environment 
 
 #   smoke-test:
