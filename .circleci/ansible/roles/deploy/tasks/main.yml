@@ -2,13 +2,6 @@
 - name: "Show Instance Environment"
   shell: env
 
-- name: install rsync on the ansible controller
-  connection: local
-  become: yes
-  package:
-    name: rsync
-    state: present
-
 - name: "Copy backend compiled code"
   become: yes
   synchronize:
