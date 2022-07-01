@@ -20,7 +20,6 @@
     name:
       - nodejs
       - npm
-      - python
       
     state: latest
     update_cache: yes
