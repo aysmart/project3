@@ -33,9 +33,7 @@
 #Download the backend artifact from s3
 
 - name: "Show Instance Environment"
-  shell: |
-    echo {{ shell_output.stdout }}
-    aws s3 cp s3://{{ shell_output.stdout }}/artifact.tar.gz /home/ubuntu/udapeople_app/artifact.tar.gz
+  shell: aws s3 cp s3://{{ shell_output.stdout }}/artifact.tar.gz /home/ubuntu/udapeople_app/artifact.tar.gz
 
 #Extract from achieved
 - name: "Extract the achieved artifact "
