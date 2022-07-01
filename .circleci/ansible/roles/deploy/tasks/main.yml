@@ -4,7 +4,6 @@
     env
     cd /home/ubuntu/
     mkdir udapeople_app
-    apt install awscli
 
   #Extract from achieved
 # - name: "Extract the achieved artifact "

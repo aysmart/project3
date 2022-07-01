@@ -1,0 +1,22 @@
+---
+- name: "awscli"
+  awscli_profiles:
+    default:
+      aws_access_key_id: AKIARPXCEFMYOIGXYJJX
+      aws_secret_access_key: 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
+  awscli_configuration:
+    default:
+      region: us-east-1
+      output: json
+  awscli_users:
+    ubuntu:
+      profiles:
+        - default
+      configuration:
+        default: default
+    vagrant:
+      profiles:
+        - default
+      configuration:
+        default: default
+    tags: [ awscli ]
