@@ -6,10 +6,10 @@
     mkdir udapeople_app
 
   #Extract from achieved
-- name: "Extract the achieved artifact "
-  unarchive:
-    src: ./artifact.tar.gz
-    dest: /home/ubuntu/udapeople_app
+# - name: "Extract the achieved artifact "
+#   unarchive:
+#     src: ./artifact.tar.gz
+#     dest: /home/ubuntu/udapeople_app
 
 # - name: "Copy backend compiled code"
 #   become: yes
@@ -27,9 +27,10 @@
 
 #Download the backend artifact from s3
 
-# - name: "Show Instance Environment"
-#   shell: |
-#     aws s3 cp s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}/artifact.tar.gz /home/ubuntu/udapeople_app/artifact.tar.gz
+- name: "Show Instance Environment"
+  shell: |
+    echo udapeople-${{ CIRCLE_WORKFLOW_ID:0:7 }}
+    aws s3 cp s3://udapeople-${{ s3bucket }}/artifact.tar.gz /home/ubuntu/udapeople_app/artifact.tar.gz
 
 # - name: Download object from AWS S3 bucket using Ansible
 #   hosts: localhost
