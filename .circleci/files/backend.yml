@@ -30,6 +30,11 @@ Resources:
         - Ref: InstanceSecurityGroup
       KeyName: UbuntuKey
       ImageId: ami-052efd3df9dad4825 #ami-08d4ac5b634553e16
+      UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash
+            sudo apt-get update -y
+            sudo apt-get install awscli -y
       Tags:
         - Key: Name
           Value: !Sub backend-${ID}
