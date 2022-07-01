@@ -17,20 +17,25 @@
 #     recursive: true
 
 #Download the backend artifact from s3
-- name: Download object from AWS S3 bucket using Ansible
-  hosts: localhost
-  tasks:
-  - name: GET/DOWNLOAD file from S3 bucket
-    amazon.aws.aws_s3:
-      profile: personal
-      bucket: udapeople-${CIRCLE_WORKFLOW_ID:0:7}
-      mode: get
-      object: "artifact.tar.gz"
-      dest: "/home/ubuntu/udapeople_app"
-    register: getresult
-  - debug: 
-      msg="{{ getresult.msg }}" 
-    when: getresult.changed
+
+- name: "Show Instance Environment"
+  shell: |
+    aws s3 cp s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}/artifact.tar.gz /home/ubuntu/udapeople_app/artifact.tar.gz
+
+# - name: Download object from AWS S3 bucket using Ansible
+#   hosts: localhost
+#   tasks:
+#   - name: GET/DOWNLOAD file from S3 bucket
+#     amazon.aws.aws_s3:
+#       profile: personal
+#       bucket: udapeople-${CIRCLE_WORKFLOW_ID:0:7}
+#       mode: get
+#       object: "artifact.tar.gz"
+#       dest: "/home/ubuntu/udapeople_app"
+#     register: getresult
+#   - debug: 
+#       msg="{{ getresult.msg }}" 
+#     when: getresult.changed
 
 
 
