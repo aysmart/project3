@@ -5,58 +5,11 @@
     cd /home/ubuntu/
     mkdir udapeople_app
 
-  #Extract from achieved
-# - name: "Extract the achieved artifact "
-#   unarchive:
-#     src: ./artifact.tar.gz
-#     dest: /home/ubuntu/udapeople_app
-
-# - name: "Copy backend compiled code"
-#   become: yes
-#   synchronize:
-#     src: ../../backend/dist
-#     dest: /home/ubuntu/udapeople_app
-#     recursive: true
-
-# - name: "copy node_functions"
-#   become: yes
-#   synchronize:
-#     src: ../../backend/node_modules
-#     dest: /home/ubuntu/udapeople_app
-#     recursive: true
-
-# Get bucket name 
-# - name:               Get Radar exe url
-#   shell:              curl https://kvdb.io/VMYQi71XYivasRDqmX9fy9/s3name
-#   register:           shell_output
-
-#Download the backend artifact from s3
-
-# - name: "Show Instance Environment"
-#   shell: aws s3 cp s3://{{ shell_output.stdout }}/artifact.tar.gz /home/ubuntu/udapeople_app/artifact.tar.gz
-
 #Extract from achieved
 - name: "Extract the achieved artifact "
   unarchive:
     src: ../../../../../artifact.tar.gz
     dest: /home/ubuntu/udapeople_app    
-
-# - name: Download object from AWS S3 bucket using Ansible
-#   hosts: localhost
-#   tasks:
-#   - name: GET/DOWNLOAD file from S3 bucket
-#     amazon.aws.aws_s3:
-#       profile: personal
-#       bucket: udapeople-${CIRCLE_WORKFLOW_ID:0:7}
-#       mode: get
-#       object: "artifact.tar.gz"
-#       dest: "/home/ubuntu/udapeople_app"
-#     register: getresult
-#   - debug: 
-#       msg="{{ getresult.msg }}" 
-#     when: getresult.changed
-
-
 
 - name: "delete running programmes"
   become: true
