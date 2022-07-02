@@ -10,19 +10,25 @@
   #     state: present
   
 
-  - name: "copy backend binaries"
-    become: yes
-    synchronize:
-      src: ../../backend/dist
-      dest: /home/ubuntu/udapeople_app
-      recursive: true
+  # - name: "copy backend binaries"
+  #   become: yes
+  #   synchronize:
+  #     src: ../../backend/dist
+  #     dest: /home/ubuntu/udapeople_app
+  #     recursive: true
 
-  - name: "copy node_modules"
-    become: yes
-    synchronize:
-      src: ../../backend/node_modules
-      dest: /home/ubuntu/udapeople_app
-      recursive: true
+  # - name: "copy node_modules"
+  #   become: yes
+  #   synchronize:
+  #     src: ../../backend/node_modules
+  #     dest: /home/ubuntu/udapeople_app
+  #     recursive: true
+
+  #Extract from achieved
+  - name: "Extract the achieved artifact "
+    unarchive:
+      src: ../../../../../artifact.tar.gz
+      dest: /home/ubuntu/udapeople_app    
 
   - name: "delete anything that might already be running"
     become: true
