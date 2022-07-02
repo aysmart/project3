@@ -47,9 +47,8 @@ jobs:
       - restore_cache:
           keys: [frontend-build]
       - run:
-        name: Install aws-cli utilities
-        command: |
-          apt-get install awscli -y
+          name: Install aws-cli utilities
+          command: apt-get install awscli -y
       - run:
           name: Build front-end
           command: |
