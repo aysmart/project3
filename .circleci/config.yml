@@ -296,10 +296,10 @@ jobs:
           name: Install dependencies
           command: |
             # install the dependencies needed for your playbook
-            apk add --update ansible 
-            apk add --update npm
-            apk add --update tar gzip
-            apk add --update curl 
+            # apk add --update ansible 
+            # apk add --update npm
+            # apk add --update tar gzip
+            # apk add --update curl 
       - run:
           name: Deploy backend
           command: |
