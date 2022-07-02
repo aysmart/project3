@@ -234,21 +234,14 @@ jobs:
 
   deploy-infrastructure:
     docker: 
-      - image: python:3.7-alpine3.11
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - run:
-          name: Install aws-cli
+          name: Install aws-cli utilities
           command: |
-            pip install awscli
-      - run:
-          name: Install dependencies
-          command: |
-            # install the dependencies needed for your playbook
-            apk add --update ansible 
-            apk add --update npm
-            apk add --update tar gzip
-            apk add --update curl 
+            sudo apt-get update
+            sudo apt-get install awscli -y
       - run:
           name: Ensure back-end infrastructure exists
           command: |
@@ -288,14 +281,15 @@ jobs:
       - destroy-environment   
 
   configure-infrastructure:
-    docker:
-      - image: python:3.7-alpine3.11
+    docker: 
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - run:
-          name: Install aws-cli
+          name: Install aws-cli utilities
           command: |
-            pip install awscli
+            sudo apt-get update
+            sudo apt-get install awscli -y
       - add_ssh_keys:
           fingerprints: ["26:4a:e7:7a:50:d1:8f:54:45:dd:f4:c7:42:d9:e4:40"]
       - attach_workspace:
@@ -364,21 +358,14 @@ jobs:
 
   deploy-frontend:
     docker: 
-      - image: python:3.7-alpine3.11
+      - image: circleci/node:13.8.0
     steps:
-      - checkout 
+      - checkout
       - run:
-          name: Install aws-cli
+          name: Install aws-cli utilities
           command: |
-            pip install awscli
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update ansible 
-            apk add --update npm
-            apk add --update nodejs
-            apk add --update tar gzip
-            # your code here
+            sudo apt-get update
+            sudo apt-get install awscli -y
       - run:
           name: Get backend url
           command: |
@@ -410,14 +397,15 @@ jobs:
       - revert-migrations    
                     
   deploy-backend:
-    docker:
-      - image: python:3.7-alpine3.11
+    docker: 
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - run:
-          name: Install aws-cli
+          name: Install aws-cli utilities
           command: |
-            pip install awscli
+            sudo apt-get update
+            sudo apt-get install awscli -y
       - add_ssh_keys:
           fingerprints: ["26:4a:e7:7a:50:d1:8f:54:45:dd:f4:c7:42:d9:e4:40"]
       - attach_workspace:
@@ -460,20 +448,14 @@ jobs:
 
   smoke-test:
     docker: 
-      - image: python:3.7-alpine3.11
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - run:
-          name: Install aws-cli
+          name: Install aws-cli utilities
           command: |
-            pip install awscli
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update ansible 
-            apk add --update npm
-            apk add --update tar gzip
-            apk add --update curl 
+            sudo apt-get update
+            sudo apt-get install awscli -y
       - run:
           name: Get backend url and run backend smoke test
           command: |
