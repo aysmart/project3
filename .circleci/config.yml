@@ -242,6 +242,14 @@ jobs:
           command: |
             pip install awscli
       - run:
+          name: Install dependencies
+          command: |
+            # install the dependencies needed for your playbook
+            apk add --update ansible 
+            apk add --update npm
+            apk add --update tar gzip
+            apk add --update curl 
+      - run:
           name: Ensure back-end infrastructure exists
           command: |
             aws cloudformation deploy \
@@ -410,7 +418,6 @@ jobs:
           name: Install aws-cli
           command: |
             pip install awscli
-            pip install curl
       - add_ssh_keys:
           fingerprints: ["26:4a:e7:7a:50:d1:8f:54:45:dd:f4:c7:42:d9:e4:40"]
       - attach_workspace:
