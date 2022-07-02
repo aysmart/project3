@@ -273,17 +273,21 @@ jobs:
       - destroy-environment       
 
   run-migrations:
-    docker:
-      - image: circleci/node:13.8.0
+    docker: 
+      - image: python:3.7-alpine3.11
     steps:
-      - checkout
-      - restore_cache:
-          keys: [migration-run]
+      - checkout 
       - run:
-          name: Install aws-cli utilities
+          name: Install aws-cli
           command: |
-            sudo apt-get update
-            sudo apt-get install awscli -y
+            pip install awscli
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible 
+            apk add --update npm
+            apk add --update nodejs
+            apk add --update tar gzip
       - run:
           name: Run migrations
           command: |
