@@ -48,7 +48,9 @@ jobs:
           keys: [frontend-build]
       - run:
           name: Install aws-cli utilities
-          command: sudo apt-get install awscli -y
+          command: |
+            sudo apt-get update
+            sudo apt-get install awscli -y
       - run:
           name: Build front-end
           command: |
