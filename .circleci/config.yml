@@ -213,8 +213,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/.circleci/ansible/inventory.txt
+      # - attach_workspace:
+      #     at: ~/.circleci/ansible/inventory.txt
       - run:
           name: Install aws-cli
           command: |
@@ -236,8 +236,8 @@ jobs:
               then
                   curl https://kvdb.io/VMYQi71XYivasRDqmX9fy9/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
               fi
-      - destroy-environment:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      # - destroy-environment:
+      #     workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   deploy-frontend:
     docker:
@@ -245,7 +245,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: ~/.circleci/ansible/inventory.txt
+          at: ~/.circleci/ansible/
       - run:
           name: Install AWS-cli
           command: |
