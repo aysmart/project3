@@ -79,6 +79,11 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       - run:
+          name: Install aws-cli utilities
+          command: |
+            sudo apt-get update
+            sudo apt-get install awscli -y
+      - run:
           name: Back-end build
           command: |
             cd backend
@@ -105,6 +110,11 @@ jobs:
       - checkout
       - restore_cache:
           keys: [frontend-build]
+      - run:
+          name: Install aws-cli utilities
+          command: |
+            sudo apt-get update
+            sudo apt-get install awscli -y
       - run:
           name: Front-end build
           command: |
@@ -135,6 +145,11 @@ jobs:
       - restore_cache:
           keys: [backend-test]
       - run:
+          name: Install aws-cli utilities
+          command: |
+            sudo apt-get update
+            sudo apt-get install awscli -y
+      - run:
           name: Back-end test
           command: |
             cd backend
@@ -152,6 +167,11 @@ jobs:
       - checkout
       - restore_cache:
           keys: [frontend-scan]
+      - run:
+          name: Install aws-cli utilities
+          command: |
+            sudo apt-get update
+            sudo apt-get install awscli -y
       - run:
           name: Front-end scan
           command: |
@@ -171,6 +191,11 @@ jobs:
       - checkout
       - restore_cache:
           keys: [backend-scan]
+      - run:
+          name: Install aws-cli utilities
+          command: |
+            sudo apt-get update
+            sudo apt-get install awscli -y
       - run:
           name: Back-end scan
           command: |
@@ -227,6 +252,10 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
+      - run:
+          name: Install aws-cli
+          command: |
+            pip install awscli
       - add_ssh_keys:
           fingerprints: ["26:4a:e7:7a:50:d1:8f:54:45:dd:f4:c7:42:d9:e4:40"]
       - attach_workspace:
@@ -250,6 +279,11 @@ jobs:
       - checkout
       - restore_cache:
           keys: [migration-run]
+      - run:
+          name: Install aws-cli utilities
+          command: |
+            sudo apt-get update
+            sudo apt-get install awscli -y
       - run:
           name: Run migrations
           command: |
