@@ -274,7 +274,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/node:18.4.0 
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -343,13 +343,16 @@ jobs:
                     
   deploy-backend:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: circleci/node:13.8.0
     steps:
       - checkout
+      - restore_cache:
+          keys: [backend-build]
       - run:
-          name: Install aws-cli
+          name: Install aws-cli utilities
           command: |
-            pip install awscli
+            sudo apt-get update
+            sudo apt-get install awscli -y
       - add_ssh_keys:
           fingerprints: ["26:4a:e7:7a:50:d1:8f:54:45:dd:f4:c7:42:d9:e4:40"]
       - attach_workspace:
