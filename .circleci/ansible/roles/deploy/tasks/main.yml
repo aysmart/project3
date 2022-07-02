@@ -1,6 +1,7 @@
 ---
 - name: "show remote environment"
-    shell: env
+    shell: | 
+    env
     cd /home/ubuntu/
     mkdir udapeople_app
 
