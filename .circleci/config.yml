@@ -89,7 +89,6 @@ jobs:
             cd backend
             npm install
             npm run build
-
       - slack/notify:
           event: fail
           mentions: '@EngineeringTeam'
@@ -97,7 +96,6 @@ jobs:
       - slack/notify:
           event: pass
           template: success_tagged_deploy_1
-
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
@@ -121,7 +119,6 @@ jobs:
             cd frontend
             npm install
             npm run test
-
       - slack/notify:
           event: fail
           channel: circleci-alerts
@@ -131,7 +128,6 @@ jobs:
           channel: circleci-alerts
           event: pass
           template: success_tagged_deploy_1
-
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-test
@@ -155,6 +151,15 @@ jobs:
             cd backend
             npm install
             npm run test
+      - slack/notify:
+          event: fail
+          channel: circleci-alerts
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          channel: circleci-alerts
+          event: pass
+          template: success_tagged_deploy_1
       - save_cache:
           paths: [backend/node_modules]
           key: backend-test
@@ -179,6 +184,15 @@ jobs:
             npm install
             npm audit fix --audit-level-critical --force
             npm audit --audit-level=critical
+      - slack/notify:
+          event: fail
+          channel: circleci-alerts
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          channel: circleci-alerts
+          event: pass
+          template: success_tagged_deploy_1
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-scan
@@ -204,6 +218,15 @@ jobs:
             npm audit fix --audit-level-critical --force
             npm audit fix --force
             npm audit --audit-level=critical
+      - slack/notify:
+          event: fail
+          channel: circleci-alerts
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          channel: circleci-alerts
+          event: pass
+          template: success_tagged_deploy_1
       - save_cache:
           paths: [backend/node_modules]
           key: backend-scan
@@ -241,6 +264,15 @@ jobs:
             aws ec2 describe-instances \
                 --query 'Reservations[*].Instances[*].PublicIpAddress' \
                 --output text >> inventory.txt
+      - slack/notify:
+          event: fail
+          channel: circleci-alerts
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          channel: circleci-alerts
+          event: pass
+          template: success_tagged_deploy_1
       - persist_to_workspace:
           root: ~/
           paths:
@@ -270,6 +302,15 @@ jobs:
           command: |
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
+      - slack/notify:
+          event: fail
+          channel: circleci-alerts
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          channel: circleci-alerts
+          event: pass
+          template: success_tagged_deploy_1
       - destroy-environment       
 
   run-migrations:
@@ -299,6 +340,15 @@ jobs:
               then
                   curl https://kvdb.io/VMYQi71XYivasRDqmX9fy9/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
               fi
+      - slack/notify:
+          event: fail
+          channel: circleci-alerts
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          channel: circleci-alerts
+          event: pass
+          template: success_tagged_deploy_1
       - destroy-environment
       - revert-migrations
 
@@ -337,7 +387,15 @@ jobs:
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
-      
+      - slack/notify:
+          event: fail
+          channel: circleci-alerts
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          channel: circleci-alerts
+          event: pass
+          template: success_tagged_deploy_1
       - destroy-environment
       - revert-migrations    
                     
@@ -378,14 +436,27 @@ jobs:
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
+      - slack/notify:
+          event: fail
+          channel: circleci-alerts
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          channel: circleci-alerts
+          event: pass
+          template: success_tagged_deploy_1
       - destroy-environment
       - revert-migrations 
 
   smoke-test:
     docker: 
-      - image: alpine:latest
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
+      - run:
+          name: Install aws-cli
+          command: |
+            pip install awscli
       - run:
           name: Install dependencies
           command: |
@@ -396,6 +467,9 @@ jobs:
       - run:
           name: Get backend url and run backend smoke test
           command: |
+            export BACKEND_IP=$(aws ec2 describe-instances \
+                --query 'Reservations[*].Instances[*].PublicIpAddress' \
+                --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
@@ -416,6 +490,15 @@ jobs:
             else
               return 1
             fi
+      - slack/notify:
+          event: fail
+          channel: circleci-alerts
+          mentions: '@EngineeringTeam'
+          template: basic_fail_1
+      - slack/notify:
+          channel: circleci-alerts
+          event: pass
+          template: success_tagged_deploy_1
       - destroy-environment 
       - revert-migrations  
 
