@@ -276,49 +276,6 @@ jobs:
       - revert-migrations:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}   
                     
-  # deploy-backend:
-  #   docker:
-  #     - image: circleci/node:13.8.0
-  #   steps:
-  #     - checkout
-  #     - restore_cache:
-  #         keys: [backend-build]
-  #     - run:
-  #         name: Install aws-cli utilities
-  #         command: |
-  #           sudo apt-get update
-  #           sudo apt-get install awscli -y
-  #     - add_ssh_keys:
-  #         fingerprints: ["26:4a:e7:7a:50:d1:8f:54:45:dd:f4:c7:42:d9:e4:40"]
-  #     - attach_workspace:
-  #         at: ~/
-  #     # - run:
-  #     #     name: Install dependencies
-  #     #     command: |
-  #     #       # install the dependencies needed for your playbook
-  #     #       # apk add --update ansible 
-  #     #       # apk add --update npm
-  #     #       # apk add --update tar gzip
-  #     #       # apk add --update curl 
-  #     - run:
-  #         name: Deploy backend
-  #         command: |
-  #           cd backend
-  #           npm i
-  #           npm run build
-  #           cd ..
-  #           # Zip the directory
-  #           tar -C backend -czvf artifact.tar.gz .
-  #           cd .circleci/ansible
-
-  #           echo "Contents  of the inventory.txt file is -------"
-  #           cat inventory.txt
-  #           ansible-playbook -i inventory.txt deploy-backend.yml
-  #     - destroy-environment:
-  #         workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
-  #     - revert-migrations:
-  #         workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
-
   deploy-backend:
     docker:
       - image: python:3.7-alpine3.11
@@ -345,13 +302,11 @@ jobs:
             npm i
             npm run build
             cd ..
-            # Zip the directory
             tar -C backend -czvf artifact.tar.gz .
-            #curl https://kvdb.io/VMYQi71XYivasRDqmX9fy9/s3name  -d udapeople-${CIRCLE_WORKFLOW_ID:0:7}
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
-            ansible-playbook -i inventory.txt deploy-backend.yml
+            ansible-playbook -i inventory.txt deploy-backend.yml -vv
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
       - revert-migrations:
