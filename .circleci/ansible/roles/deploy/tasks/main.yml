@@ -1,6 +1,6 @@
 ---
 - name: "show remote environment"
-  become: yes
+  become: true
   shell: | 
     env
     cd /home/ubuntu/
@@ -15,7 +15,7 @@
 
 
 - name: "copy backend binaries"
-  become: yes
+  become: true
   synchronize:
     src: ../../backend/dist
     dest: /home/ubuntu/udapeople_app
