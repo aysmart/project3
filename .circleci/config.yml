@@ -177,10 +177,10 @@ jobs:
             aws ec2 describe-instances \
                 --query 'Reservations[*].Instances[*].PublicIpAddress' \
                 --output text >> inventory.txt
-      - persist_to_workspace:
-          root: .
+       - persist_to_workspace:
+          root: ~/
           paths:
-            - .circleci/ansible/*
+            - project/.circleci/ansible/inventory.txt
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}  
 
@@ -192,7 +192,7 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["26:4a:e7:7a:50:d1:8f:54:45:dd:f4:c7:42:d9:e4:40"]
       - attach_workspace:
-          at: .
+          at: ~/
       - run:
           name: Install dependencies
           command: |
@@ -213,8 +213,6 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/.circleci/ansible/inventory.txt
       - run:
           name: Install aws-cli
           command: |
@@ -245,7 +243,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: ~/.circleci/ansible/
+          at: ~/
       - run:
           name: Install AWS-cli
           command: |
