@@ -1,6 +1,8 @@
 ---
-  - name: "show remote environment"
-    shell: env
+  # - name: "show remote environment"
+  #   become: true
+  #   shell: env
+
   - name: "copy backend binaries"
     become: true
     synchronize:
