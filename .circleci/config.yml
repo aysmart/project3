@@ -379,13 +379,13 @@ jobs:
       - run:
           name: Update cloudfront distribution
           command: |
+            #Get old workflow_id
             export OldWorkflowID=$(aws cloudformation \
               list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
               --no-paginate --output text)
-
-              echo ${OldWorkflowID} > OldWorkflowId.txt
-              cat OldWorkflowId.txt
-
+              #Save old workflow id to kvdb.io
+              curl --insecure  https://kvdb.io/VMYQi71XYivasRDqmX9fy9/oldstackname -d "${OldWorkflowID}"
+              
             aws cloudformation deploy \
             --template-file .circleci/files/cloudfront.yml \
             --stack-name InitialStack \
@@ -410,8 +410,8 @@ jobs:
       - run:
           name: Get old stack workflow id
           command: |
-            cat OldWorkflowId.txt
-            OldWorkflowID=$(cat OldWorkflowId.txt)
+            #Get old workflow if from kvdb.io
+            OldWorkflowID=$(curl --insecure  https://kvdb.io/VMYQi71XYivasRDqmX9fy9/oldstackname)
 
             echo OldWorkflowID: "${OldWorkflowID}"
             echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
