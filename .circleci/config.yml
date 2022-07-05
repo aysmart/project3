@@ -16,6 +16,11 @@ commands:
             aws s3 rm "s3://udapeople-<< parameters.workflow_id >>" --recursive
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
+      - slack/notify: #send message to stack channel
+          channel: circleci-alerts
+          mentions: '@EngineeringTeam'
+          template: basic_fail_2
+      
 
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
@@ -50,15 +55,6 @@ jobs:
             cd frontend
             npm install
             npm run build
-      - slack/notify:
-          event: fail
-          channel: circleci-alerts
-          mentions: '@EngineeringTeam'
-          template: basic_fail_1
-      - slack/notify:
-          event: pass
-          channel: circleci-alerts
-          template: success_tagged_deploy_1
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
@@ -76,15 +72,6 @@ jobs:
             cd backend
             npm install
             npm run build
-
-      - slack/notify:
-          event: fail
-          mentions: '@EngineeringTeam'
-          template: basic_fail_1
-      - slack/notify:
-          event: pass
-          template: success_tagged_deploy_1
-
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
