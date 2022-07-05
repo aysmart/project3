@@ -400,6 +400,7 @@ jobs:
     docker: 
       - image: amazon/aws-cli
     steps:
+      - checkout
       - run:
           name: Install tar utility
           command: |
