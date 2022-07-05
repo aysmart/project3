@@ -384,7 +384,7 @@ jobs:
               --no-paginate --output text)
 
               echo ${OldWorkflowID} > OldWorkflowId.txt
-              cat OldWorkflowId.tct
+              cat OldWorkflowId.txt
 
             aws cloudformation deploy \
             --template-file .circleci/files/cloudfront.yml \
